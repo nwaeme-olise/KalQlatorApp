@@ -22,6 +22,17 @@ class MainActivity : AppCompatActivity() {
         display.setText("")
         stringDisplay = SpannableStringBuilder(display.text.toString())
 
+        binding.buttonDelete.setOnClickListener{
+            deleteTextInDisplay()
+        }
+
+        binding.buttonDelete.setOnLongClickListener{
+            deleteAllTextInDisplay()
+            true
+        }
+
+        binding.buttonZero.setOnClickListener { updateDisplayOnButtonClick("0") }
+
         binding.buttonOne.setOnClickListener{updateDisplayOnButtonClick("1")}
 
         binding.buttonTwo.setOnClickListener { updateDisplayOnButtonClick("2")}
@@ -52,6 +63,23 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    private fun deleteAllTextInDisplay() {
+        if (stringDisplay.isEmpty()){
+            return
+        }
+        stringDisplay.clear()
+        display.text = stringDisplay
+    }
+
+    private fun deleteTextInDisplay() {
+        if (stringDisplay.isEmpty()){
+            return
+        }
+        stringDisplay =
+            stringDisplay.subSequence(0, stringDisplay.lastIndex) as SpannableStringBuilder
+        display.text = stringDisplay
     }
 
 
