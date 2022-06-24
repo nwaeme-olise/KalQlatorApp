@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.widget.EditText
+import android.widget.TextView
 import com.example.kalqulatorapp.databinding.ActivityMainBinding
+import org.mariuszgromada.math.mxparser.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var  display: EditText
+    private lateinit var evaluatedDisplay: TextView
     private lateinit var stringDisplay: SpannableStringBuilder
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +25,9 @@ class MainActivity : AppCompatActivity() {
         display = binding.expressionEditText
         display.showSoftInputOnFocus = false
         display.setText("")
+        evaluatedDisplay = binding.evaluatedTextView
         stringDisplay = SpannableStringBuilder(display.text.toString())
+
 
         binding.buttonDelete.setOnClickListener{
             deleteTextInDisplay()
@@ -61,7 +68,17 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonDivide.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.divide)) }
 
+        binding.buttonEval.setOnClickListener{
+            val expression = display.text.toString()
+            val evaluatedExpression = Expression(expression).calculate()
+            var evaluatedExpressionString = evaluatedExpression.toString()
+//            if (evaluatedExpressionString[evaluatedExpressionString.lastIndex].equals("0")  &&
+//                evaluatedExpressionString[evaluatedExpressionString.lastIndex-1].equals(".") ){
+//                evaluatedExpressionString = evaluatedExpressionString.subSequence(0, evaluatedExpressionString.lastIndex-2) as String
+//            }
+            evaluatedDisplay.text = evaluatedExpressionString
 
+        }
 
     }
 
@@ -71,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         }
         stringDisplay.clear()
         display.text = stringDisplay
+        evaluatedDisplay.text = ""
     }
 
     private fun deleteTextInDisplay() {
@@ -80,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         stringDisplay =
             stringDisplay.subSequence(0, stringDisplay.lastIndex) as SpannableStringBuilder
         display.text = stringDisplay
+        evaluatedDisplay.text = ""
     }
 
 
