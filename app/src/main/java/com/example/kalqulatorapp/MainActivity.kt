@@ -71,12 +71,14 @@ class MainActivity : AppCompatActivity() {
         binding.buttonEval.setOnClickListener{
             val expression = display.text.toString()
             val evaluatedExpression = Expression(expression).calculate()
-            var evaluatedExpressionString = evaluatedExpression.toString()
-//            if (evaluatedExpressionString[evaluatedExpressionString.lastIndex].equals("0")  &&
-//                evaluatedExpressionString[evaluatedExpressionString.lastIndex-1].equals(".") ){
-//                evaluatedExpressionString = evaluatedExpressionString.subSequence(0, evaluatedExpressionString.lastIndex-2) as String
-//            }
+            val evaluatedExpressionString = evaluatedExpression.toString()
             evaluatedDisplay.text = evaluatedExpressionString
+
+            if ((evaluatedExpressionString.last().toString() == "0") &&
+                (evaluatedExpressionString.secondToLast().toString() == ".")){
+                evaluatedDisplay.text = evaluatedExpressionString.dropLast(2)
+            }
+
 
         }
 
@@ -105,6 +107,11 @@ class MainActivity : AppCompatActivity() {
     private fun updateDisplayOnButtonClick(buttonStringValue: String){
         stringDisplay.append(buttonStringValue)
         display.text = stringDisplay
+    }
+
+    private fun String.secondToLast(): Char{
+        val i = lastIndex - 1
+        return get(i)
     }
 }
 
