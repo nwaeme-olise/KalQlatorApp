@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         display = binding.expressionEditText
-        display.showSoftInputOnFocus = false
+        display.showSoftInputOnFocus = false    //Disable Android keyboard popup
         display.setText("")
         evaluatedDisplay = binding.evaluatedTextView
         stringDisplay = SpannableStringBuilder(display.text.toString())
@@ -38,42 +38,43 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        binding.buttonZero.setOnClickListener { updateDisplayOnButtonClick("0") }
+        binding.buttonZero.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.zero)) }
 
-        binding.buttonOne.setOnClickListener{updateDisplayOnButtonClick("1")}
+        binding.buttonOne.setOnClickListener{ updateDisplayOnButtonClick(getString(R.string.one))}
 
-        binding.buttonTwo.setOnClickListener { updateDisplayOnButtonClick("2")}
+        binding.buttonTwo.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.two))}
 
-        binding.buttonThree.setOnClickListener { updateDisplayOnButtonClick("3") }
+        binding.buttonThree.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.three)) }
 
-        binding.buttonFour.setOnClickListener { updateDisplayOnButtonClick("4") }
+        binding.buttonFour.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.four)) }
         
-        binding.buttonFive.setOnClickListener { updateDisplayOnButtonClick("5") }
+        binding.buttonFive.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.five)) }
         
-        binding.buttonSix.setOnClickListener { updateDisplayOnButtonClick("6") }
+        binding.buttonSix.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.six)) }
         
-        binding.buttonSeven.setOnClickListener { updateDisplayOnButtonClick("7") }
+        binding.buttonSeven.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.seven)) }
         
-        binding.buttonEight.setOnClickListener { updateDisplayOnButtonClick("8") }
+        binding.buttonEight.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.eight)) }
         
-        binding.buttonNine.setOnClickListener { updateDisplayOnButtonClick("9") }
+        binding.buttonNine.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.nine)) }
         
-        binding.buttonDot.setOnClickListener { updateDisplayOnButtonClick(".") }
+        binding.buttonDot.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.decimal_point)) }
         
-        binding.buttonAdd.setOnClickListener { updateDisplayOnButtonClick("+") }
+        binding.buttonAdd.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.plus)) }
         
-        binding.buttonSubtract.setOnClickListener { updateDisplayOnButtonClick("-") }
+        binding.buttonSubtract.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.minus)) }
         
         binding.buttonMultiply.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.times)) }
 
         binding.buttonDivide.setOnClickListener { updateDisplayOnButtonClick(getString(R.string.divide)) }
 
         binding.buttonEval.setOnClickListener{
-            val expression = display.text.toString()
-            val evaluatedExpression = Expression(expression).calculate()
+            val expression = display.text.toString()    //Retrieve expression currently in the display
+            val evaluatedExpression = Expression(expression).calculate()    //Create Math parser object, pass expression into class constructor and evaluate
             val evaluatedExpressionString = evaluatedExpression.toString()
             evaluatedDisplay.text = evaluatedExpressionString
 
+            //If evaluated expression result is an integer, remove decimal part
             if ((evaluatedExpressionString.last().toString() == "0") &&
                 (evaluatedExpressionString.secondToLast().toString() == ".")){
                 evaluatedDisplay.text = evaluatedExpressionString.dropLast(2)
@@ -105,11 +106,13 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun updateDisplayOnButtonClick(buttonStringValue: String){
+        //Appends the passed in string value to the text already in the display
         stringDisplay.append(buttonStringValue)
         display.text = stringDisplay
     }
 
     private fun String.secondToLast(): Char{
+        //Returns the second to the last character of a string
         val i = lastIndex - 1
         return get(i)
     }
