@@ -3,6 +3,7 @@ package com.example.kalqulatorapp
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.SpannableStringBuilder
 import android.widget.EditText
 import android.widget.TextView
@@ -23,10 +24,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         display = binding.expressionEditText
+        evaluatedDisplay = binding.evaluatedTextView
         display.showSoftInputOnFocus = false    //Disable Android keyboard popup
         display.setText("")
-        evaluatedDisplay = binding.evaluatedTextView
-        stringDisplay = SpannableStringBuilder(display.text.toString())
+
+        val bundledDisplay = savedInstanceState?.getString("StringDisplay", "")
+        val bundledEvaluatedDisplay = savedInstanceState?.getCharSequence("EvaluatedDisplay", "")
+
+        stringDisplay = if (savedInstanceState == null) SpannableStringBuilder(display.text.toString()) else SpannableStringBuilder(bundledDisplay)
+        evaluatedDisplay.text = if (savedInstanceState == null ) binding.evaluatedTextView.text else bundledEvaluatedDisplay
 
 
         binding.buttonDelete.setOnClickListener{
@@ -83,6 +89,12 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("StringDisplay", stringDisplay.toString())
+        outState.putCharSequence("EvaluatedDisplay", evaluatedDisplay.text)
     }
 
     private fun deleteAllTextInDisplay() {
