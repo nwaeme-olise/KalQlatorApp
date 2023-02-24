@@ -38,4 +38,4 @@ Click [here](https://appetize.io/app/m4ov4krqqknsbtfko7f3vy7z5m?device=pixel4&os
 
 # Screenshots
 
-<img src="https://i.ibb.co/W6TfxWb/2023-02-24-12-22-37-High-Res-Screenshot.png" alt="2023-02-24-12-22-37-High-Res-Screenshot" border="0">
+<img src="https://i.ibb.co/W6TfxWb/2023-02-24-12-22-37-High-Res-Screenshot.png" alt="2023-02-24-12-22-37-High-Res-Screenshot" border="0" height="250" width="250">
